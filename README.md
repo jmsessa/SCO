@@ -1,2 +1,2 @@
-# SCO
-Sistema de Curso Online- Unibelas
+# SGA
+Sistema de Gestão da Aprendizagem

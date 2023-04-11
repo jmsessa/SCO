@@ -1,0 +1,49 @@
+
+---Downloaded files---
+The import files for: Single Course were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/sga
+Data file = C:\xampp\htdocs\SGA/wp-content/uploads/2022/07/demo-content-import-file_2022-07-19__21-19-56.xml
+Widget file = C:\xampp\htdocs\SGA/wp-content/uploads/2022/07/demo-widgets-import-file_2022-07-19__21-19-56.json
+Customizer
+
+------
+New AJAX call!
+
+
+---Importing widgets---
+Sidebar : 
+
+Pesquisar - No Title - Imported
+Artigos recentes - No Title - Imported
+Comentários recentes - No Title - Imported
+
+Footer Widget 1 : 
+
+Texto - No Title - Imported
+Texto - No Title - Imported
+
+Footer Widget 2 : 
+
+Menu de navegação - Quick Links - Imported
+
+Footer Widget 3 : 
+
+Menu de navegação - Resources - Imported
+
+Footer Widget 4 : 
+
+Menu de navegação - Support - Imported
+
+Footer Social Media : 
+
+HTML personalizado - No Title - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---tutormate_after_import---
+
