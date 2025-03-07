@@ -32,39 +32,34 @@ defined( 'ABSPATH' ) || exit;
                         <div class="tutor-theme-signup-form-area">
                             <div class="tutor-theme-signup-form-area-row">
                                 <div class="tutor-theme-signup-form-area-heading">
-                                    <?php esc_html_e( 'Inscrever-se', 'tutorstarter' ); ?>
+                                    <?php esc_html_e( 'Sign up', 'tutorstarter' ); ?>
                                 </div>
                                 <div class="tutor-theme-signup-form">
                                     <form action="" method="post" class="tutor-signup-form">
                                         <p class="signup-status"></p>
                                         <?php wp_nonce_field( 'tutor-starter-signup-nonce', 'signup-nonce' ); ?>
                                         <div class="form-grp signup-form-fullname">
-                                            <label for="fullname"><?php esc_html_e( 'Nome Completo', 'tutorstarter' ); ?></label>
-                                            <input name="fullname" id="fullname" type="text" placeholder="<?php esc_attr_e( 'João Sessa', 'tutorstarter' ); ?>">
+                                            <label for="fullname"><?php esc_html_e( 'Full Name', 'tutorstarter' ); ?></label>
+                                            <input name="fullname" id="fullname" type="text" placeholder="<?php esc_attr_e( 'John Doe', 'tutorstarter' ); ?>">
                                         </div>
-
                                         <div class="form-grp signup-form-email">
-                                            <label for="email"><?php esc_html_e( 'E-mail', 'tutorstarter' ); ?></label>
-                                            <input name="email" id="email" type="email" placeholder="<?php esc_attr_e( 'joao.sessa@sga.com', 'tutorstarter' ); ?>">
+                                            <label for="email"><?php esc_html_e( 'Email', 'tutorstarter' ); ?></label>
+                                            <input name="email" id="email" type="email" placeholder="<?php esc_attr_e( 'name@example.com', 'tutorstarter' ); ?>">
                                         </div>
-
                                         <div class="form-grp signup-form-password">
-                                            <label for="password"><?php esc_html_e( 'Palavra-Passe', 'tutorstarter' ); ?></label>
-                                            <input name="password" id="password" type="password" placeholder="<?php esc_attr_e( 'Insira a Palavra-Passe', 'tutorstarter' ); ?>">
+                                            <label for="password"><?php esc_html_e( 'Password', 'tutorstarter' ); ?></label>
+                                            <input name="password" id="password" type="password" placeholder="<?php esc_attr_e( 'Type your password', 'tutorstarter' ); ?>">
                                         </div>
-
                                         <div class="form-grp signup-form-confirm-password">
-                                            <label for="confirm-password"><?php esc_html_e( 'Confirma Palavra-Passe', 'tutorstarter' ); ?></label>
-                                            <input name="confirm_password" id="confirm-password" type="password" placeholder="<?php esc_attr_e( 'Confirma tua Palavra-Passe', 'tutorstarter' ); ?>">
+                                            <label for="confirm-password"><?php esc_html_e( 'Confirm Password', 'tutorstarter' ); ?></label>
+                                            <input name="confirm_password" id="confirm-password" type="password" placeholder="<?php esc_attr_e( 'Confirm your password', 'tutorstarter' ); ?>">
                                         </div>
                                         <div class="form-grp signup-form-terms-condition">
-                                            <?php esc_html_e( 'Ao se inscrever você concorda com os', 'tutorstarter' ); ?> <a href="<?php echo esc_url( home_url() . '/terms-conditions' ); ?>"><?php esc_html_e( 'Termos e Condições', 'tutorstarter' ); ?></a> <?php esc_html_e( 'e a', 'tutorstarter' ); ?> <br> <a href="<?php echo esc_url( home_url() . '/privacy-policy' ); ?>">  <?php esc_html_e( 'Política de Privacidade', 'tutorstarter' ); ?></a>
+                                            <?php esc_html_e( 'By signing up you agree to the', 'tutorstarter' ); ?> <a href="<?php echo esc_url( home_url() . '/terms-conditions' ); ?>"><?php esc_html_e( 'Terms and Conditions', 'tutorstarter' ); ?></a> <?php esc_html_e( 'and the', 'tutorstarter' ); ?> <br> <a href="<?php echo esc_url( home_url() . '/privacy-policy' ); ?>">  <?php esc_html_e( 'Privacy Policy', 'tutorstarter' ); ?></a>
                                         </div>
-
                                         <?php do_action( 'tutorstarter_auth_recaptcha' ); ?>
-                                        <button type="submit" class="btn btn-primary tutor-starter-btn"><?php esc_html_e( 'Inscrever-se', 'tutorstarter' ); ?></button>
+                                        <button type="submit" class="btn btn-primary tutor-starter-btn"><?php esc_html_e( 'Sign up', 'tutorstarter' ); ?></button>
                                     </form><!-- form -->
-
                                 </div><!-- tutor-theme-signup-form -->
                             </div><!-- tutor-theme-signup-form-area-row -->
                             <div class="already-have-account-link text-center mt-3">

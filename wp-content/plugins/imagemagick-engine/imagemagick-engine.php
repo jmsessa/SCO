@@ -5,10 +5,11 @@
 	Description: Improve the quality of re-sized images by replacing standard GD library with ImageMagick
 	Author: Orangelab
 	Author URI: https://orangelab.com/
-	Version: 1.7.4
+	Version: 1.7.12
 	Text Domain: imagemagick-engine
+	License: GPLv2 or later
 
-	Copyright @ 2022 Orangelab AB
+	Copyright @ 2024 Orangelab AB
 
 	Licenced under the GNU GPL:
 
@@ -35,13 +36,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Constants
  */
 define( 'IME_OPTION_VERSION', 1 );
-define( 'IME_VERSION', '1.7.3' );
+define( 'IME_VERSION', '1.7.12' );
 
 /*
  * Global variables
  */
 
 // Plugin options default values -- change on plugin admin page
+global $ime_options_default;
 $ime_options_default = [
 	'enabled'      => false,
 	'mode'         => null,
@@ -106,7 +108,8 @@ function ime_init() {
 		add_action( 'wp_ajax_ime_process_image', 'ime_ajax_process_image' );
 		add_action( 'wp_ajax_ime_regeneration_get_images', 'ime_ajax_regeneration_get_images' );
 
-		wp_register_script( 'ime-admin', plugins_url( '/js/ime-admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-progressbar' ], constant('IME_VERSION') );
+        wp_register_script( 'alpinejs', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js', [], constant('IME_VERSION'), ['strategy' => 'defer'] );
+		wp_register_script( 'ime-admin', plugins_url( '/js/ime-admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-progressbar', 'alpinejs' ], constant('IME_VERSION') );
 	}
 }
 
@@ -177,7 +180,7 @@ function ime_setup_options() {
 	// No stored options yet?
 	if ( ! is_array( $ime_options ) ) {
 		global $ime_options_default;
-		$ime_options = $ime_options_default;
+		$ime_options = $ime_options_default ?? array();
 	}
 
 	// Do we need to upgrade options?
@@ -537,15 +540,21 @@ function ime_im_cli_valid() {
 
 // Test if we are allowed to exec executable!
 function ime_im_cli_check_executable($fullpath) {
-	if (!ime_is_executable($fullpath)) {
+	if ( ! ime_is_executable($fullpath) || ! function_exists('exec') ) {
 		return false;
 	}
 
 	@exec( '"' . $fullpath . '" --version', $output );
 
-	ime_set_option( 'imagemagick_version', $output, true );
+	if ( is_array($output) && (count( $output ) > 0) ) {
+		preg_match('/ImageMagick ([0-9]+\.[0-9]+\.[0-9]+)/', $output[0], $im_version);
 
-	return (is_array($output)) ? (count( $output ) > 0) : false;
+		ime_set_option( 'imagemagick_version', $im_version[1], true );
+
+		return true;
+	}
+
+	return false;
 }
 
 /*
@@ -556,35 +565,38 @@ function ime_im_cli_check_executable($fullpath) {
 function ime_try_realpath( $path ) {
 	$realpath = @realpath( $path );
 	if ( $realpath ) {
-		return $realpath;
+		return escapeshellcmd( $realpath );
 	} else {
-		return $path;
+		return str_replace([';', ' ', '=', '`'], '', escapeshellcmd( $path ));
 	}
 }
 
 // Check if path leads to ImageMagick executable
-function ime_im_cli_check_command( $path, $executable = 'convert' ) {
+function ime_im_cli_check_command( $path ) {
 	$path = ime_try_realpath( $path );
+	$executables = [ 'magick', 'convert' ];
 
-	$cmd = $path . '/' . $executable;
-	if ( ime_im_cli_check_executable( $cmd ) ) {
-		return $cmd;
-	}
+	foreach ( $executables as $executable ) {
+		$cmd = $path . '/' . $executable;
+		if ( ime_im_cli_check_executable( $cmd ) ) {
+			return $cmd;
+		}
 
-	$cmd = $cmd . '.exe';
-	if ( ime_im_cli_check_executable( $cmd ) ) {
-		return $cmd;
+		$cmd = $cmd . '.exe';
+		if ( ime_im_cli_check_executable( $cmd ) ) {
+			return $cmd;
+		}
 	}
 
 	return null;
 }
 
 // Try to find a valid ImageMagick executable
-function ime_im_cli_find_command( $executable = 'convert' ) {
+function ime_im_cli_find_command() {
 	$possible_paths = [ '/usr/bin', '/usr/local/bin' ];
 
 	foreach ( $possible_paths as $path ) {
-		if ( ime_im_cli_check_command( $path, $executable ) ) {
+		if ( ime_im_cli_check_command( $path ) ) {
 			return $path;
 		}
 	}
@@ -593,18 +605,18 @@ function ime_im_cli_find_command( $executable = 'convert' ) {
 }
 
 // Get ImageMagick executable
-function ime_im_cli_command( $executable = 'convert' ) {
+function ime_im_cli_command() {
 	$path = ime_get_option( 'cli_path' );
 	if ( ! empty( $path ) ) {
-		return ime_im_cli_check_command( $path, $executable );
+		return ime_im_cli_check_command( $path );
 	}
 
-	$path = ime_im_cli_find_command( $executable );
+	$path = ime_im_cli_find_command();
 	if ( empty( $path ) ) {
 		return null;
 	}
 	ime_set_option( 'cli_path', $path, true );
-	return ime_im_cli_check_command( $path, $executable );
+	return ime_im_cli_check_command( $path );
 }
 
 // Check if we are running under Windows (which differs for character escape)
@@ -659,19 +671,19 @@ function ime_im_cli_resize( $old_file, $new_file, $width, $height, $crop, $resiz
 
 // Test if a path is correct for IM binary
 function ime_ajax_test_im_path() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die();
+	if ( ! current_user_can( 'install_plugins' ) || ! wp_verify_nonce( $_REQUEST['ime_nonce'], 'ime-admin-nonce') ) {
+		wp_die( 'Sorry, but you do not have permissions to perform this action.' );
 	}
-	$r = ime_im_cli_check_command( $_REQUEST['cli_path'] );
+	$r = ime_im_cli_check_command( @realpath( $_REQUEST['cli_path'] ) );
 	echo empty( $r ) ? '0' : '1';
-	die();
+	wp_die();
 }
 
 // Get list of attachments to regenerate
 function ime_ajax_regeneration_get_images() {
 	global $wpdb;
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || ! wp_verify_nonce( $_REQUEST['ime_nonce'], 'ime-admin-nonce') ) {
 		wp_die( 'Sorry, but you do not have permissions to perform this action.' );
 	}
 
@@ -685,7 +697,7 @@ function ime_ajax_regeneration_get_images() {
 	}
 	$ids = implode( ',', $ids );
 
-	die( $ids );
+	wp_die( $ids );
 }
 
 // Process single attachment ID
@@ -694,26 +706,26 @@ function ime_ajax_process_image() {
 
 	error_reporting( E_ERROR | E_WARNING );
 
-	if ( ! current_user_can( 'manage_options' ) || ! ime_mode_valid() ) {
-		die( '-1' );
+	if ( ! current_user_can( 'manage_options' ) || ! ime_mode_valid() || ! wp_verify_nonce( $_REQUEST['ime_nonce'], 'ime-admin-nonce') ) {
+		wp_die( '-1' );
 	}
 
 	if ( ! isset( $_REQUEST['id'] ) ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 
 	$id = intval( $_REQUEST['id'] );
 	if ( $id <= 0 ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 
 	$temp_sizes = $_REQUEST['sizes'];
 	if ( empty( $temp_sizes ) ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 	$temp_sizes = explode( '|', $temp_sizes );
 	if ( count( $temp_sizes ) < 1 ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 
 	$temp_sizes = apply_filters( 'intermediate_image_sizes', $temp_sizes );
@@ -749,7 +761,7 @@ function ime_ajax_process_image() {
 	$ime_image_file = function_exists('wp_get_original_image_path') ? wp_get_original_image_path( $id ) : get_attached_file( $id );
 
 	if ( false === $ime_image_file || ! file_exists( $ime_image_file ) ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 
 	$metadata = wp_get_attachment_metadata( $id );
@@ -764,7 +776,7 @@ function ime_ajax_process_image() {
 			}
 		}
 		if ( count( $sizes ) < 1 ) {
-			die( 1 );
+			wp_die( 1 );
 		}
 	}
 
@@ -774,7 +786,7 @@ function ime_ajax_process_image() {
 
 	$new_meta = ime_filter_attachment_metadata( $metadata, $id );
 	if ( is_wp_error( $new_meta ) ) {
-		die( '-1' );
+		wp_die( '-1' );
 	}
 	wp_update_attachment_metadata( $id, $new_meta );
 
@@ -790,7 +802,7 @@ function ime_ajax_process_image() {
 
 	// No old sizes, nothing to check
 	if ( ! isset( $metadata['sizes'] ) || empty( $metadata['sizes'] ) ) {
-		die( '1' );
+		wp_die( '1' );
 	}
 
 	$dir = trailingslashit( dirname( $ime_image_file ) );
@@ -815,7 +827,7 @@ function ime_ajax_process_image() {
 		@ unlink( $dir . $old_file );
 	}
 
-	die( '1' );
+	wp_die( '1' );
 }
 
 
@@ -844,6 +856,7 @@ function ime_admin_print_scripts() {
 		'processed_fmt' => __( 'Processed %d images', 'imagemagick-engine' ),
 		'failed'        => '<strong>' . __( 'Failed to resize image!', 'imagemagick-engine' ) . '</strong>',
 		'resized'       => __( 'Resized using ImageMagick Engine', 'imagemagick-engine' ),
+		'ime_nonce'     => wp_create_nonce('ime-admin-nonce'),
 	];
 	wp_localize_script( 'ime-admin', 'ime_admin', $data );
 }
@@ -951,7 +964,7 @@ function ime_option_display( $display = true, $echo = true ) {
 function ime_option_page() {
 	global $ime_available_modes, $ime_available_quality_modes;
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'install_plugins' ) ) {
 		wp_die( 'Sorry, but you do not have permissions to change settings.' );
 	}
 
@@ -1069,7 +1082,7 @@ function ime_option_page() {
 
 	if ( ! $any_valid ) {
 		echo '<div id="warning" class="error"><p>'
-			. sprintf( __( 'No valid ImageMagick mode found! Please check %1$sFAQ%2$s for installation instructions.', 'imagemagick-engine' ), '<a href="http://wp.orangelab.se/imagemagick-engine/documentation#installation">', '</a>' )
+			. __( 'No valid ImageMagick mode found!', 'imagemagick-engine' )
 			. '</p></div>';
 	} elseif ( ! $enabled ) {
 		echo '<div id="warning" class="error"><p>'
@@ -1170,7 +1183,7 @@ function ime_option_page() {
 		<img id="cli_path_progress" src="<?php echo ime_option_admin_images_url(); ?>wpspin_light.gif" alt="<?php _e( 'Testing command...', 'qp-qie' ); ?>"  <?php ime_option_display( false ); ?> />
 		<input id="cli_path" type="text" name="cli_path" size="<?php echo max( 30, strlen( $cli_path ) + 5 ); ?>" value="<?php echo $cli_path; ?>" />
 		<input type="button" name="ime_cli_path_test" id="ime_cli_path_test" value="<?php _e( 'Test path', 'imagemagick-engine' ); ?>" class="button-secondary" />
-		<span <?php ime_option_display( $cli_path_ok ); ?>><br><br><?php if (ime_get_option( 'imagemagick_version' )) { echo ime_get_option( 'imagemagick_version' )[0]; } ?></span>
+		<span <?php ime_option_display( $cli_path_ok ); ?>><br><br><?php if (ime_get_option( 'imagemagick_version' )) { echo 'ImageMagick version ' . ime_get_option( 'imagemagick_version' ); } ?></span>
 			</td>
 		</tr>
 		<tr>

@@ -1,0 +1,92 @@
+2025-02-12T08:13:09+00:00 ERROR Error getting data feed
+2025-02-12T08:13:09+00:00 ERROR WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. 
+stream_socket_client(): Unable to connect to ssl://woocommerce.com:443 (php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. )
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+2025-02-12T08:13:09+00:00 ERROR Error getting data feed
+2025-02-12T08:13:09+00:00 ERROR WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. 
+stream_socket_client(): Unable to connect to ssl://woocommerce.com:443 (php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. )
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+2025-02-12T08:15:02+00:00 ERROR Error getting data feed
+2025-02-12T08:15:02+00:00 ERROR WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. 
+stream_socket_client(): Unable to connect to ssl://woocommerce.com:443 (php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. )
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+2025-02-12T08:15:02+00:00 ERROR Error getting data feed
+2025-02-12T08:15:02+00:00 ERROR WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. 
+stream_socket_client(): Unable to connect to ssl://woocommerce.com:443 (php_network_getaddresses: getaddrinfo for woocommerce.com failed: Este anfitri�o n�o � conhecido. )
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+

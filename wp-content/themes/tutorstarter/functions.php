@@ -8,8 +8,9 @@
 defined( 'ABSPATH' ) || exit;
 
 // Content width.
-if ( ! isset( $content_width ) ) 
+if ( ! isset( $content_width ) ) {
 	$content_width = apply_filters( 'tutorstarter_content_width', get_theme_mod( 'content_width_value', 1140 ) );
+}
 
 // Theme GLOBALS.
 $theme = wp_get_theme();

@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit;
                                         <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/dist/images/path-icon.png' ); ?>" alt="<?php esc_attr_e( 'Instructor Registration', 'tutorstarter' ) ?>">
                                     </div>
                                     <div class="signing-title">
-                                        <?php esc_html_e( 'Inscreva-se como Formador', 'tutorstarter' ); ?>
+                                        <?php esc_html_e( 'Sign up as an instructor', 'tutorstarter' ); ?>
                                     </div>
                                 </div><!-- sign-in-as-instructor-->
                             </a>
@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit;
                                         <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/dist/images/path-icon.png' ); ?>" alt="<?php esc_attr_e( 'Student Registration', 'tutorstarter' ) ?>">
                                     </div>
                                     <div class="signing-title">
-                                        <?php esc_html_e( 'Eu sou um estudante', 'tutorstarter' ); ?>
+                                        <?php esc_html_e( 'I’m a student', 'tutorstarter' ); ?>
                                     </div>
                                 </div><!-- sign-in-as-student-->
                             </a>
@@ -55,7 +55,7 @@ defined( 'ABSPATH' ) || exit;
                     </div>
                     <div class="col-md-12 text-center">
                         <div class="getting-started-footer">
-                            <?php esc_html_e( 'SGA ™ 2023', 'tutorstarter' ); ?>
+                            <?php esc_html_e( 'tutor ™ 2021', 'tutorstarter' ); ?>
                         </div>
                     </div>
                 </div>

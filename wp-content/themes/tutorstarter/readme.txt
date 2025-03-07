@@ -2,9 +2,9 @@
 Contributors: themeum
 Tags: education, e-commerce, blog, custom-logo, grid-layout, one-column, two-columns, custom-background, custom-colors, custom-header, custom-menu, featured-image-header, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, rtl-language-support, footer-widgets, left-sidebar, right-sidebar
 Requires at least: 5.0
-Tested up to: 6.0
-Stable tag: 1.1.2
-Requires PHP: 7.0
+Tested up to: 6.4
+Stable tag: 1.2.0
+Requires PHP: 7.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,6 +83,49 @@ If you found any bugs or issues, please let us know by posting on the support se
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.2.0 = 
+*Compatibility: PHP 8.1 and 8.2 compatibility
+
+= 1.1.10 = 
+*Update: WooCommerce templates
+
+= 1.1.9 = 
+*Update: WooCommerce templates
+*Fixed: Some style and CSS issue
+
+= 1.1.8 = 
+*Update: WooCommerce templates
+*Fixed: Some style and CSS issue
+
+= 1.1.7 = 
+
+Update: Compatibility with latest tutor update
+Fix: Header Menu issue fixed
+
+= 1.1.6 = 
+
+New: Added 'Display cart button when product added' button on the customizer page. When enabled, the Cart button will be visible only after the customer adds products to their cart.
+Fix: Resolved the compatibility issues with the latest Tutor LMS version
+Fix: Fixed various CSS issues to enhance the visual presentation.
+
+= 1.1.5 = 
+
+Update: Compatibility and Template update is introduced for the latest WooCommerce
+Fix: Footer widget design break issue
+
+= 1.1.4 = 
+
+Fix: Checkout page was not showing Pay button in some cases
+
+= 1.1.3 = 
+
+New: Introduced Coupon Form on the Checkout page
+Update: The RTL Design is improved
+Update: Compatibility and Template update is introduced for the latest WooCommerce
+Update: WooCommerce Coupon System was not functioning well on the Cart page
+Fix: The Header section Profile Picture design was broken
+Fix: The Cart Page design appears broken when multiple Course is on the Cart
 
 = 1.1.2 = 
 Fix: Known functional bug is fixed

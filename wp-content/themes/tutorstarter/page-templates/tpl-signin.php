@@ -31,34 +31,34 @@ defined( 'ABSPATH' ) || exit;
                         <div class="tutor-theme-signin-form-area">
                             <div class="tutor-theme-signin-form-area-row">
                                 <div class="tutor-theme-signin-form-area-heading">
-                                    <?php esc_html_e( 'Entrar', 'tutorstarter' ); ?>
+                                    <?php esc_html_e( 'Sign in', 'tutorstarter' ); ?>
                                 </div>
                                 <div class="tutor-theme-signin-form">
                                     <form action="" method="post" class="tutor-signin-form">
                                         <p class="signup-status"></p>
                                         <?php wp_nonce_field( 'tutor-starter-signin-nonce', 'signin-nonce' ); ?>
                                         <div class="form-grp signin-form-email">
-                                            <label for="login_email"><?php esc_html_e( 'E-mail', 'tutorstarter' ); ?></label>
-                                            <input name="login_email" type="login_email" id="login_email" placeholder="<?php esc_attr_e( 'jsessa@sga.com', 'tutorstarter' ); ?>">
+                                            <label for="login_email"><?php esc_html_e( 'Email', 'tutorstarter' ); ?></label>
+                                            <input name="login_email" type="login_email" id="login_email" placeholder="<?php esc_attr_e( 'name@example.com', 'tutorstarter' ); ?>">
                                         </div>
                                         <div class="form-grp signin-form-password">
                                             <label for="login_password">
-                                                <?php esc_html_e( 'Palavra-passe', 'tutorstarter' ); ?>
+                                                <?php esc_html_e( 'Password', 'tutorstarter' ); ?>
                                                 <?php $lostpasurl = wp_lostpassword_url( home_url() ); ?>
                                                 <a href="<?php echo esc_url( $lostpasurl ); ?>">
-                                                    <?php esc_html_e( 'Esqueceu a senha?', 'tutorstarter' ); ?>
+                                                    <?php esc_html_e( 'Forgot password?', 'tutorstarter' ); ?>
                                                 </a>
                                             </label>
-                                            <input name="login_password" id="login_password" type="password" placeholder="<?php esc_attr_e( 'Insira a Palavra-passe', 'tutorstarter' ); ?>">
+                                            <input name="login_password" id="login_password" type="password" placeholder="<?php esc_attr_e( 'Type your password', 'tutorstarter' ); ?>">
                                         </div>
                                         <?php do_action( 'tutorstarter_auth_recaptcha' ); ?>
-                                        <button type="submit" class="btn btn-primary tutor-starter-btn"><?php esc_html_e( 'Entrar', 'tutorstarter' ); ?></button>
+                                        <button type="submit" class="btn btn-primary tutor-starter-btn"><?php esc_html_e( 'Log in', 'tutorstarter' ); ?></button>
                                     </form><!-- form -->
                                 </div><!-- tutor-theme-signup-form -->
                             </div><!-- tutor-theme-signup-form-area-row -->
                             <!-- tutor-theme-signin-form-area-row tutor-theme-social-signin -->
                             <div class="already-have-account-link text-center mt-3">
-                                <?php esc_html_e( 'Não tem uma conta?', 'tutorstarter' ); ?> <a href="<?php echo esc_url( home_url() . '/sign-up/' ); ?>"><?php esc_html_e( 'Inscrever-se', 'tutorstarter' ); ?></a>
+                                <?php esc_html_e( 'Don\'t have an account?', 'tutorstarter' ); ?> <a href="<?php echo esc_url( home_url() . '/sign-up/' ); ?>"><?php esc_html_e( 'Sign up', 'tutorstarter' ); ?></a>
                             </div>
                         </div>
                     </div>
